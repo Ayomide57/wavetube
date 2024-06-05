@@ -23,17 +23,18 @@ const AllVideo = () => {
     const getAllVideo = useCallback(async () => {
         if (bucket && address) {
           const fileList = await bucket.listFiles();
-          const videosList = await waveTube.getVideos();
+          const videosList: any[] | null | undefined =
+            await waveTube.getVideos();
           const newList1: any = [];
-          videosList.forEach((video) => {
+          videosList && videosList.forEach((video) => {
             fileList.items.filter(async (file) => {
               if (file.path == `${video.user}/`) {
-                  const result = await axios.get(
-                    `https://ipfs.io/ipfs/${file.CID}`
-                  );
+                const result = await axios.get(
+                  `https://ipfs.io/ipfs/${file.CID}`
+                );
 
                 if (result) newList1.push([video, result.data]);
-              };
+              }
             });
           });
           updateList(newList1);
@@ -44,7 +45,7 @@ const AllVideo = () => {
   useEffect(() => {
                 setTimeout(() => {
         getAllVideo();
-              }, 5000); // Clear error after 5 seconds
+              }, 10000); // Clear error after 5 seconds
       
       }, [getAllVideo]);
 

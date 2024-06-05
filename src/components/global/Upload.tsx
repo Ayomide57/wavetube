@@ -39,12 +39,13 @@ export const UploadToStorage = ({
       async () => {
         if (bucket && reader.result && address) {
           //await bucket.uploadFromFolder(reader.result);
+          const buffer: any = reader.result;
           await bucket.uploadFiles(
             [
               {
                 fileName: file.name,
                 contentType: accept,
-                content: new Buffer(reader.result),
+                content: new Buffer(buffer),
               },
             ],
             // Upload the files in a new subdirectory in the bucket instead of in the root of the bucket

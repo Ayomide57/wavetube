@@ -17,6 +17,8 @@ export default function StreamDetails() {
           </h1>
           <UploadToStorage
             className="bg-white rounded-3xl mt-4 mb-4 pl-20 pr-20"
+            accept="image/*"
+            ForLabel="myFile"
             updateLink={() => {}}
           />
           <Button className="bg-customLightPurple-dark_foreground dark:bg-black h-10 p-2  hover:bg-zinc-800 md:mt-0 text-white rounded-xl text-lg border border-gray-100 ">
@@ -25,7 +27,9 @@ export default function StreamDetails() {
         </div>
 
         <div className="bg-customLightPurple dark:bg-customPurple-foreground h-2/4 m-5 rounded-md">
-          <h1 className="p-5 font-bold text-xl text-customLightPurple-dark_text dark:text-white">Stream Details</h1>
+          <h1 className="p-5 font-bold text-xl text-customLightPurple-dark_text dark:text-white">
+            Stream Details
+          </h1>
 
           <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <tbody>

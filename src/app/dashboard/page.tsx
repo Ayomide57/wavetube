@@ -1,6 +1,5 @@
 "use client";
 
-import TabBar from "@/components/global/tabbar";
 import VideoCard from "@/components/global/videocard";
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";

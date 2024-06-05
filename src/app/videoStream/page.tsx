@@ -85,7 +85,7 @@ export default function VideoStream() {
 
       const getAllVideo = useCallback(async () => {
         if (bucket) {
-          const videosList = await waveTube.getSingleVideos(3);
+          const videosList = await waveTube.getSingleVideos("3");
           updateVideo(videosList);
         }
       }, []);

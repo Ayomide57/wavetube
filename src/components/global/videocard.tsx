@@ -13,11 +13,11 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
+interface IVideoCard {
+  newList: any
+}
 
-
-export default function VideoCard({ newList }) {
-
-
+export default function VideoCard({ newList }: IVideoCard) {
   return (
     <div className="grid grid-cols-3 gap-2 ">
       {newList &&
@@ -29,9 +29,7 @@ export default function VideoCard({ newList }) {
             <CardHeader className="flex-row items-center">
               <div className="relative">
                 <div className="relative">
-                  <Link
-                    href={`/videoStream?videoId=${video[0].id}`}
-                  >
+                  <Link href={`/videoStream?videoId=${video[0].id}`}>
                     <img
                       src={video[1]}
                       alt="Notification"
