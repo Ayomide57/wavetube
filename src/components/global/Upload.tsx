@@ -7,6 +7,7 @@ import { useAccount } from "wagmi";
 
 interface IUploadFile {
   updateLink: (value: string) => void;
+  updateDuration?: (value: number) => void;
   className?: string;
   accept: string | undefined;
   ForLabel: string;
@@ -15,6 +16,7 @@ interface IUploadFile {
 
 export const UploadToStorage = ({
   updateLink,
+  updateDuration,
   className,
   accept,
   ForLabel,
@@ -40,6 +42,11 @@ export const UploadToStorage = ({
         if (bucket && reader.result && address) {
           //await bucket.uploadFromFolder(reader.result);
           const buffer: any = reader.result;
+          if ((accept === "video/mp4,video/x-m4v,video/*" && updateDuration)) {
+            const media = new Audio(buffer);
+            updateDuration(media.duration);
+          }
+
           await bucket.uploadFiles(
             [
               {

@@ -1,10 +1,7 @@
-import { Formik, Form, Field, ErrorMessage } from "formik";
+/* eslint-disable @next/next/no-img-element */
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { useState, useEffect, useCallback } from "react";
-import WaveTubeService from "@/hooks/WaveTube";
-import { useAccount } from "wagmi";
-import { UploadToThirdWebStorage } from "@/components/global/UploadThirdWeb";
+import axios from 'axios';
 
 interface IUserInfo {
   userInfo: any;
@@ -12,13 +9,20 @@ interface IUserInfo {
 
 const UserInfo = ({ userInfo }: IUserInfo) => {
 
+  let image: string = userInfo[0].pfp.replace("ipfs://", "https://ipfs.io/ipfs/");
+
+
   return (
     <div className="flex space-x-16 p-8 m-24 bg-customLightPurple dark:bg-customPurple-foreground justify-center items-center rounded-md">
       <div className="space-y-6 flex flex-col">
         <div>
           <Avatar className="h-24 w-24 object-cover rounded-full bg-customLightPurple-dark_foreground dark:bg-transparent">
-            {userInfo[0] && <AvatarImage src={userInfo[0].pfp} />}
-            <AvatarFallback>CN</AvatarFallback>
+            {userInfo[0].pfp && <img src={image} alt={userInfo[0].username} />}
+            {!userInfo[0].pfp && (
+              <AvatarFallback>
+                {userInfo[0].username.charAt(0).toUpperCase()}
+              </AvatarFallback>
+            )}
           </Avatar>
         </div>
         <div>

@@ -18,6 +18,7 @@ import { useAccount } from "wagmi";
 
 export default function UploadPage() {
   const [videoLink, updateVideoLink] = useState<any>();
+  const [duration, updateDuration] = useState<number>();
   const [thumbnailLink, updateThumbnailLink] = useState<any>();
 
     const [isLoading, setIsLoading] = useState(false);
@@ -185,6 +186,7 @@ export default function UploadPage() {
                     <UploadToStorage
                       accept="video/mp4,video/x-m4v,video/*"
                       updateLink={updateVideoLink}
+                      updateDuration={updateDuration}
                       ForLabel="myVideo"
                     />
                     <p>{videoLink && videoLink}</p>

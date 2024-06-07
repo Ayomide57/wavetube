@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
-import { ICreateProfile, IComment, ICreateVideo, IDeleteComment, IFollow, ILike, ISetBio, ISetPfp, ISetUsername, ITips, IUnfollow, IUnlike, IWithdrawTip, IisFollowing } from '@/types';
+import { ICreateProfile, IComment, ICreateVideo, IDeleteComment, IFollow, ILike, ISetBio, ISetPfp, ISetUsername, ITips, IUnfollow, IUnlike, IWithdrawTip, IisFollowing, ICreateNft, ISubscribe } from '@/types';
 
 // a service to interact with the smart contract using SUI SDK
 
@@ -36,6 +36,30 @@ export default class WaveTubeService {
             console.log("Errrr====================================", error)
         }
     }
+
+    async create_nft({
+        name,
+        symbol,
+        description,
+        baseUri,
+        maxSupply,
+        wallet,
+        royaltiesFees,
+        dropPrice,
+        dropReserve,
+    }: ICreateNft) {
+                try {
+            const { data, error } = await supabase.from('nft')
+                .insert({ name: name, symbol: symbol, description: description, link: baseUri, maxSupply: maxSupply, royaltiesFees: royaltiesFees, dropPrice: dropPrice, user: wallet, dropReserve: dropReserve });
+            
+            console.log("success====================================", error)
+
+
+        } catch (error) {
+            console.log("Errrr====================================", error)
+        }
+
+      };
 
     async getUserInformation(wallet: string | undefined) {
         try {
@@ -82,8 +106,34 @@ export default class WaveTubeService {
     async isFollowing({Arg0, Arg1}: IisFollowing) {
     }
 
-    async follow({profileId, profileCapId, profileIdFollow}: IFollow) {
+    async follow({ user, follower }: IFollow) {
+                try {
+            const { data, error } = await supabase.from('follows')
+                .insert({ user: user, follower: follower });
+            
+            console.log("success====================================", error)
+
+
+        } catch (error) {
+            console.log("Errrr====================================", error)
+        }
+
     }
+
+        async subscribe({ user, subscriber }: ISubscribe) {
+                try {
+            const { data, error } = await supabase.from('subscribers')
+                .insert({ user: user, subscriber: subscriber });
+            
+            console.log("success====================================", error)
+
+
+        } catch (error) {
+            console.log("Errrr====================================", error)
+        }
+
+    }
+
 
     async unfollow({profileId, profileCapId, profileIdUnFollow}: IUnfollow) {
     }

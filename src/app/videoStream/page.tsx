@@ -1,30 +1,31 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-// import ReactPlayer from "react-player";
 import Comment from "@/components/global/comment";
-import WaveTubeService from "@/hooks/WaveTube";
 import { useCallback, useEffect, useState } from "react";
-import { Storage, LogLevel, FileStatus, IApillonList } from "@apillon/sdk";
-
-
-//const chainTubeService = new ChainTubeService();
+import Date from '@/components/global/date';
+import { useSearchParams } from "next/navigation";
+import { waveTube, storage, BUCKET_ID } from "@/hooks/waveServiceInfo";
+import Link from 'next/link';
+import { useAccount } from 'wagmi';
 
 export default function VideoStream() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>('');
-    const [videoDetail, updateVideo] = useState<any>();
+  const [videoDetail, updateVideo] = useState<any>();
+  const router = useSearchParams();
+  const videoId = router.get("videoId");
+  const { address } = useAccount();
 
 
   const handleFollow = async () => {
     setIsLoading(true);
     setError('');
     try {
-      // await chainTubeService.follow({
-      //   Arg0: "user1",
-      //   Arg1: "user2",
-      //   Arg2: "context",
-      // });
+      await waveTube.follow({
+        user: videoDetail[0].user,
+        follower: address,
+      });
       alert('Followed successfully');
     } catch (err) {
       setError('Failed to follow');
@@ -38,12 +39,10 @@ export default function VideoStream() {
     setIsLoading(true);
     setError('');
     try {
-      // await chainTubeService.create_profile({
-      //   Arg0: "user",
-      //   Arg1: "profile",
-      //   Arg2: "info",
-      //   Arg3: "additionalInfo",
-      // });
+      await waveTube.subscribe({
+        user: videoDetail[0].user,
+        subscriber: address,
+      });
       alert('Subscribed successfully');
     } catch (err) {
       setError('Failed to subscribe');
@@ -70,31 +69,22 @@ export default function VideoStream() {
     }
   };
 
-  const waveTube = new WaveTubeService();
-        const storage = new Storage({
-          key: process.env.NEXT_PUBLIC_APILLON_API_KEY,
-          secret: process.env.NEXT_PUBLIC_APILLON_API_SECRET,
-          logLevel: LogLevel.VERBOSE,
-        });
-
-    const BUCKET_ID =
-      process.env.NEXT_PUBLIC_APILLON_BUCKET_ID2 &&
-      process.env.NEXT_PUBLIC_APILLON_BUCKET_ID2;
-
     const bucket = storage.bucket(BUCKET_ID || "");
 
       const getAllVideo = useCallback(async () => {
-        if (bucket) {
-          const videosList = await waveTube.getSingleVideos("3");
+        if (bucket && videoId) {
+          const videosList = await waveTube.getSingleVideos(videoId);
           updateVideo(videosList);
         }
-      }, []);
+      }, [bucket, videoId]);
   useEffect(() => {
-
         setTimeout(() => {
                 getAllVideo()
               }, 5000); // Clear error after 5 seconds
-      }, [error]);
+  }, [error, getAllVideo]);
+  
+  const link =
+    "https://bafybeie35wg233bijv76fw7w4xjpn7dqw2pad5ztnnsplwlyw3hfkdx5lq.ipfs.nectarnode.io";
 
   return (
     <div className="flex flex-col items-center mt-10 h-full w-full">
@@ -147,7 +137,9 @@ export default function VideoStream() {
 
           <div className="mt-8">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
-              <h2 className="text-2xl font-bold mb-4 md:mb-0">{videoDetail[0].title}</h2>
+              <h2 className="text-2xl font-bold mb-4 md:mb-0">
+                {videoDetail[0].title}
+              </h2>
               <div className="flex space-x-4">
                 <Button
                   className="bg-customPurple-foreground border border-gray-400 text-white px-4 py-2 rounded-md hover:bg-popover"
@@ -170,13 +162,21 @@ export default function VideoStream() {
                 >
                   Send Tip
                 </Button>
+                <Link
+                  href={`/makeVideoNft?nftlink=${link}`}
+                  className="bg-customPurple-foreground border border-gray-400 text-white px-4 py-2 rounded-md hover:bg-popover"
+                >
+                  Convert To NFT
+                </Link>
               </div>
             </div>
 
             <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 mt-4">
-              <p className="text-sm">Uploaded: __</p>
-              <p className="text-sm">Duration: __</p>
-              <p className="text-sm">Views: __</p>
+              <p className="text-sm">
+                Uploaded: <Date dateString={videoDetail[0].created_at}></Date>
+              </p>
+              <p className="text-sm">Duration: {videoDetail[0].duration}</p>
+              <p className="text-sm">Views: {videoDetail[0].views}</p>
             </div>
 
             <div className="p-4 rounded-lg mt-6 text-gray-400">

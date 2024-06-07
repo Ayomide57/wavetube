@@ -55,10 +55,15 @@ export interface IisFollowing{
 }
 
 export interface IFollow{
-    profileId: string;
-    profileCapId: string;
-    profileIdFollow: string;
+    user: string;
+    follower: string | undefined;
 }
+
+export interface ISubscribe{
+    user: string;
+    subscriber: string | undefined;
+}
+
 
 export interface IUnfollow{
     profileId: string;
@@ -110,6 +115,17 @@ export interface ICreateVideoForm {
     category: string;
 }
 
+export interface ICreateNft{
+    name: string;
+    description: string;
+    symbol: string;
+    maxSupply: number;
+    dropReserve: number;
+    dropPrice: number;
+    royaltiesFees: number;
+    wallet: string | undefined;
+    baseUri: string;
+}
 
 export interface ILike {
     videoStatsId: string;

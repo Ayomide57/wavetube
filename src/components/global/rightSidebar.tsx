@@ -6,7 +6,7 @@ type SidebarProps = {
 };
 
 const channels = [
-  { name: "Sui Network", image: "/images/channel_5.jpg" },
+  { name: "Polkadot Network", image: "/images/channel_5.jpg" },
   { name: "PC Crypto", image: "/images/channel_1.jpg" },
   { name: "DappRadar", image: "/images/channel_7.jpg" },
 ];
@@ -21,7 +21,7 @@ const uploads = [
   {
     id: 2,
     video_image: "/images/ana.webp",
-    title: "Introduction to Sui-Move analyzer: Development Made Simple",
+    title: "Introduction to Polkadot-Move analyzer: Development Made Simple",
     uploaded_time: "1 year ago",
   },
   {

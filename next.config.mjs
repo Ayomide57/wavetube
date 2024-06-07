@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "export",
+  //output: "export",
   webpack5: true,
   images: {
     domains: ["ipfs.io"],

@@ -36,9 +36,9 @@ export const ROUTES: ROUTES[] = [
     href: "/upload",
     icon: MdUpload,
   },
-  {
+  /**{
     label: "Wormhole Bridge",
     href: "/bridge",
     icon: MdCurrencyExchange,
-  },
+  },*/
 ];

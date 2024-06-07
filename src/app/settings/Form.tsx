@@ -8,7 +8,7 @@ import { UploadToThirdWebStorage } from "@/components/global/UploadThirdWeb";
 
 interface ISettingForm {
   ipfsLink: any;
-    updateLink: (value: any) => void;
+  updateLink: (value: any) => void;
 }
 
 const SettingForm = ({ ipfsLink, updateLink }: ISettingForm) => {
@@ -119,6 +119,7 @@ const SettingForm = ({ ipfsLink, updateLink }: ISettingForm) => {
                   type="text"
                   name="username"
                   placeholder="ABCD"
+                  //value={userInfo && userInfo[0] && userInfo[0].username}
                   className="block w-full mt-1 p-2 border border-gray-300 rounded-md"
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -135,6 +136,7 @@ const SettingForm = ({ ipfsLink, updateLink }: ISettingForm) => {
                 <Field
                   type="text"
                   name="email"
+                  //value={userInfo && userInfo[0] && userInfo[0].email}
                   placeholder="ABCD@gmail.com"
                   className="block w-full mt-1 p-2 border border-gray-300 rounded-md"
                   onChange={handleChange}
@@ -150,6 +152,7 @@ const SettingForm = ({ ipfsLink, updateLink }: ISettingForm) => {
                 <Field
                   type="text"
                   name="bio"
+                  //value={userInfo && userInfo[0] && userInfo[0].bio}
                   placeholder="I'm a software engineer"
                   className="block w-full mt-1 p-2 border border-gray-300 rounded-md"
                   onChange={handleChange}
