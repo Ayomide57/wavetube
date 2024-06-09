@@ -9,7 +9,7 @@ interface IUserInfo {
 
 const UserInfo = ({ userInfo }: IUserInfo) => {
 
-  let image: string = userInfo[0].pfp.replace("ipfs://", "https://ipfs.io/ipfs/");
+  let image: string = userInfo.pfp.replace("ipfs://", "https://ipfs.io/ipfs/");
 
 
   return (
@@ -17,10 +17,10 @@ const UserInfo = ({ userInfo }: IUserInfo) => {
       <div className="space-y-6 flex flex-col">
         <div>
           <Avatar className="h-24 w-24 object-cover rounded-full bg-customLightPurple-dark_foreground dark:bg-transparent">
-            {userInfo[0].pfp && <img src={image} alt={userInfo[0].username} />}
-            {!userInfo[0].pfp && (
+            {userInfo.pfp && <img src={image} alt={userInfo.username} />}
+            {!userInfo.pfp && (
               <AvatarFallback>
-                {userInfo[0].username.charAt(0).toUpperCase()}
+                {userInfo.username.charAt(0).toUpperCase()}
               </AvatarFallback>
             )}
           </Avatar>
@@ -29,20 +29,20 @@ const UserInfo = ({ userInfo }: IUserInfo) => {
           <label htmlFor="username" className="block text-xl dark:text-white">
             Username
           </label>
-          <p className="text-gray-500 text-sm">{userInfo[0].username}</p>
+          <p className="text-gray-500 text-sm">{userInfo.username}</p>
         </div>
         <div>
           <label htmlFor="email" className="block text-xl dark:text-white">
             Email
           </label>
-          <p className="text-gray-500 text-sm">{userInfo[0].email}</p>
+          <p className="text-gray-500 text-sm">{userInfo.email}</p>
         </div>
 
         <div>
           <label htmlFor="bio" className="block text-xl dark:text-white">
             Bio
           </label>
-          <p className="text-gray-500 text-sm">{userInfo[0].bio}</p>
+          <p className="text-gray-500 text-sm">{userInfo.bio}</p>
         </div>
 
         <div className="flex space-x-6">

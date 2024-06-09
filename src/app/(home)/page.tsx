@@ -45,7 +45,7 @@ export default function HomePage() {
         <div className="flex flex-col gap-6">
           <div className="w-full items-center justify-center m-auto">
             <Image
-              src={isDarkMode ? '/images/banner.svg' : '/images/banner_light.svg'}
+              src={isDarkMode ? '/images/banner5.jpg' : '/images/banner_light.svg'}
               alt="upload Logo"
               width={500}
               height={250}

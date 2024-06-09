@@ -8,6 +8,7 @@ import { useSearchParams } from "next/navigation";
 import { waveTube, storage, BUCKET_ID } from "@/hooks/waveServiceInfo";
 import Link from 'next/link';
 import { useAccount } from 'wagmi';
+import axios from "axios";
 
 export default function VideoStream() {
   const [isLoading, setIsLoading] = useState(false);
@@ -15,6 +16,8 @@ export default function VideoStream() {
   const [videoDetail, updateVideo] = useState<any>();
   const router = useSearchParams();
   const videoId = router.get("videoId");
+  const [linkVideo, updateVideoLink] = useState<any>(null);
+  const [linkCID, updateCID] = useState<any>(null);
   const { address } = useAccount();
 
 
@@ -69,70 +72,42 @@ export default function VideoStream() {
     }
   };
 
-    const bucket = storage.bucket(BUCKET_ID || "");
 
       const getAllVideo = useCallback(async () => {
-        if (bucket && videoId) {
+        if (videoId) {
           const videosList = await waveTube.getSingleVideos(videoId);
           updateVideo(videosList);
         }
-      }, [bucket, videoId]);
-  useEffect(() => {
-        setTimeout(() => {
-                getAllVideo()
-              }, 5000); // Clear error after 5 seconds
-  }, [error, getAllVideo]);
+      }, [videoId]);
+  useEffect(() => {    
+    getAllVideo();
+    if (videoDetail) {
+      window.localStorage.setItem("NftName",videoDetail[0].title);
+      const result = axios.get(`https://ipfs.io/ipfs/${videoDetail[0].link}`);
+      updateCID(`https://ipfs.io/ipfs/${videoDetail[0].link}`);
+      result.then((response) => {
+        updateVideoLink(response.data);
+      })
+
+    }
+
+
+  }, [error, linkVideo, getAllVideo, videoDetail]);
   
-  const link =
-    "https://bafybeie35wg233bijv76fw7w4xjpn7dqw2pad5ztnnsplwlyw3hfkdx5lq.ipfs.nectarnode.io";
 
   return (
     <div className="flex flex-col items-center mt-10 h-full w-full">
-      {/* {error && <div className="text-red-500 border border-red-400 px-4 py-3 rounded shadow-lg">{error}</div>} */}
-      {error && (
-        <div className="flex w-96 shadow-lg rounded-lg absolute top-24 right-4 z-50">
-          <div className="bg-red-600 py-4 px-6 rounded-l-lg flex items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 16"
-              className="fill-current text-white"
-              width="20"
-              height="20"
-            >
-              <path
-                fillRule="evenodd"
-                d="M4.47.22A.75.75 0 015 0h6a.75.75 0 01.53.22l4.25 4.25c.141.14.22.331.22.53v6a.75.75 0 01-.22.53l-4.25 4.25A.75.75 0 0111 16H5a.75.75 0 01-.53-.22L.22 11.53A.75.75 0 010 11V5a.75.75 0 01.22-.53L4.47.22zm.84 1.28L1.5 5.31v5.38l3.81 3.81h5.38l3.81-3.81V5.31L10.69 1.5H5.31zM8 4a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 018 4zm0 8a1 1 0 100-2 1 1 0 000 2z"
-              ></path>
-            </svg>
-          </div>
-          <div className="px-4 py-6 bg-white rounded-r-lg flex justify-between items-center w-full border border-l-transparent border-gray-200 text-black">
-            <div>{error}</div>
-            <button onClick={() => setError("")} className="focus:outline-none">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="fill-current text-gray-700"
-                viewBox="0 0 16 16"
-                width="20"
-                height="20"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z"
-                ></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-      )}
-
       {videoDetail && (
         <div className="w-11/12 lg:w-3/4">
           <div className="relative aspect-w-16 aspect-h-9">
-            <video
-              controls
-              autoPlay
-              className="w-full rounded-lg shadow-lg"
-            ></video>
+            {linkVideo && (
+              <video
+                controls
+                autoPlay
+                className="w-full rounded-lg shadow-lg"
+                src={linkVideo}
+              ></video>
+            )}
           </div>
 
           <div className="mt-8">
@@ -162,12 +137,12 @@ export default function VideoStream() {
                 >
                   Send Tip
                 </Button>
-                <Link
-                  href={`/makeVideoNft?nftlink=${link}`}
+                {linkCID && <Link
+                  href={`/makeVideoNft?nftlink=${linkCID}`}
                   className="bg-customPurple-foreground border border-gray-400 text-white px-4 py-2 rounded-md hover:bg-popover"
                 >
                   Convert To NFT
-                </Link>
+                </Link>}
               </div>
             </div>
 
@@ -175,7 +150,9 @@ export default function VideoStream() {
               <p className="text-sm">
                 Uploaded: <Date dateString={videoDetail[0].created_at}></Date>
               </p>
-              <p className="text-sm">Duration: {videoDetail[0].duration}</p>
+              <p className="text-sm">
+                Duration: {`${videoDetail[0].duration / 60}`.substring(0, 4)}
+              </p>
               <p className="text-sm">Views: {videoDetail[0].views}</p>
             </div>
 

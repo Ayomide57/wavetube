@@ -12,6 +12,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { Button } from "@/components/ui/button";
 import { Select } from "@/components/ui/select";
 import { useAccount } from "wagmi";
+import { storage, BUCKET_ID } from "@/hooks/waveServiceInfo";
 
 
 // eslint-disable-next-line @next/next/no-img-element
@@ -25,14 +26,15 @@ export default function UploadPage() {
   const [error, setError] = useState<string>("");
   const { address } = useAccount();
   
-    const BUCKET_ID =
-      process.env.NEXT_PUBLIC_APILLON_BUCKET_ID2 &&
-      process.env.NEXT_PUBLIC_APILLON_BUCKET_ID2;
 
 
   const waveTube = new WaveTubeService();
   
-    const handleUploadVideo = async (values: ICreateVideoForm) => {
+    const handleUploadVideo = async (values: {
+      title: string;
+      description: string;
+      category: string;
+      tag: string }) => {
       setIsLoading(true);
       setError("");
       try {
@@ -44,8 +46,9 @@ export default function UploadPage() {
           thumbnailLink: thumbnailLink,
           tag: values.tag,
           category: values.category,
-          videoUUid: BUCKET_ID || '',
+          videoUUid: BUCKET_ID || "",
           user: address,
+          duration: duration,
         });
         alert("Video uploaded successfully");
       } catch (err) {
@@ -58,15 +61,7 @@ export default function UploadPage() {
 
 
 
-  const storage = new Storage({
-    key: process.env.NEXT_PUBLIC_APILLON_API_KEY,
-    secret: process.env.NEXT_PUBLIC_APILLON_API_SECRET,
-    logLevel: LogLevel.VERBOSE,
-  });
-
-  const bucket =
-    process.env.NEXT_PUBLIC_APILLON_BUCKET_ID &&
-    storage.bucket(process.env.NEXT_PUBLIC_APILLON_BUCKET_ID);
+  const bucket = storage.bucket(BUCKET_ID || "");
   
   useEffect(() => {
     if (bucket) {
@@ -189,7 +184,6 @@ export default function UploadPage() {
                       updateDuration={updateDuration}
                       ForLabel="myVideo"
                     />
-                    <p>{videoLink && videoLink}</p>
                   </div>
                 </div>
                 <div>
@@ -201,7 +195,6 @@ export default function UploadPage() {
                       ForLabel="myThumnail"
                     />
                   </div>
-                  <p>{thumbnailLink && thumbnailLink}</p>
                 </div>
               </div>
             </div>

@@ -23,11 +23,11 @@ export default class WaveTubeService {
         }
     }
 
-    async create_video({ title, description, videolink, thumbnailLink, tag, category, user, videoUUid }: ICreateVideo) {
+    async create_video({ title, description, videolink, thumbnailLink, tag, category, user, videoUUid, duration }: ICreateVideo) {
 
         try {
             const { data, error } = await supabase.from('video')
-                .insert({ title: title, description: description, link: videolink, tags: tag, category: category, thumbnail_link: thumbnailLink, user: user, uuid: videoUUid });
+                .insert({ title: title, description: description, link: videolink, tags: tag, category: category, thumbnail_link: thumbnailLink, user: user, uuid: videoUUid, duration: duration });
             
             console.log("success====================================", error)
 

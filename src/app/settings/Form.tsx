@@ -5,6 +5,7 @@ import { useState, useEffect, useCallback } from "react";
 import WaveTubeService from "@/hooks/WaveTube";
 import { useAccount } from "wagmi";
 import { UploadToThirdWebStorage } from "@/components/global/UploadThirdWeb";
+import { useRouter } from "next/navigation";
 
 interface ISettingForm {
   ipfsLink: any;
@@ -15,6 +16,7 @@ const SettingForm = ({ ipfsLink, updateLink }: ISettingForm) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>("");
   const waveTube = new WaveTubeService();
+  const router = useRouter();
 
   const { address } = useAccount();
   const handleCreateProfile = async (values: {
@@ -34,6 +36,7 @@ const SettingForm = ({ ipfsLink, updateLink }: ISettingForm) => {
         wallet: address,
       });
       alert("Profile created successfully");
+      router.refresh();
     } catch (err) {
       setError("Failed to create profile");
       console.error(err);

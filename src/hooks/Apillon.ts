@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const apiKey = process.env.NEXT_PUBLIC_APILLON_API_KEY;
-const apiSecret = process.env.NEXT_PUBLIC_APILLON_API_SECRET;
+const apiKey = process.env.NEXT_PUBLIC_APILLON_API_KEY2;
+const apiSecret = process.env.NEXT_PUBLIC_APILLON_API_SECRET2;
 
 const apillonAuthAPI = axios.create({
   baseURL: 'https://api.apillon.io/auth',

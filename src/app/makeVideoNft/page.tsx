@@ -1,7 +1,8 @@
 "use client";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, ErrorMessage } from "formik";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useState, useEffect, useCallback } from "react";
 import WaveTubeService from "@/hooks/WaveTube";
 import { useAccount } from "wagmi";
@@ -14,6 +15,7 @@ import {
   TransactionStatus,
 } from "@apillon/sdk";
 import { useSearchParams, usePathname } from "next/navigation";
+import { TextArea } from "@/components/ui/textarea";
 
 
 interface IMakeVideoNft {
@@ -55,15 +57,15 @@ const MakeVideoNft = ({  }: IMakeVideoNft) => {
         description: values.description,
         baseUri: nftlink,
         baseExtension: "json",
-        maxSupply: values.maxSupply,
+        maxSupply: +values.maxSupply,
         isRevokable: false,
         isSoulbound: false,
         royaltiesAddress: address,
-        royaltiesFees: values.royaltiesFees,
+        royaltiesFees: +values.royaltiesFees,
         drop: true,
         dropStart: 1679875200,
-        dropPrice: values.dropPrice,
-        dropReserve: values.dropReserve,
+        dropPrice: +values.dropPrice,
+        dropReserve: +values.dropReserve,
       });
 
       if (createNft.transactionHash) {
@@ -91,10 +93,12 @@ const MakeVideoNft = ({  }: IMakeVideoNft) => {
     }
   };
 
+  let name = window.localStorage.getItem("NftName");
+
   return (
     <Formik
       initialValues={{
-        name: "",
+        name: name?.replace(".mp4", "") || "",
         description: "",
         symbol: "",
         maxSupply: 0,
@@ -129,9 +133,10 @@ const MakeVideoNft = ({  }: IMakeVideoNft) => {
                 <label htmlFor="name" className="block text-xl dark:text-white">
                   Name
                 </label>
-                <Field
+                <Input
                   type="text"
                   name="name"
+                  value={values.name}
                   placeholder="ABCD"
                   className="block w-full mt-1 p-2 border border-gray-300 rounded-md"
                   onChange={handleChange}
@@ -146,9 +151,10 @@ const MakeVideoNft = ({  }: IMakeVideoNft) => {
                 >
                   Symbol
                 </label>
-                <Field
+                <Input
                   type="text"
                   name="symbol"
+                  //value={values.symbol}
                   placeholder="SE"
                   className="block w-full mt-1 p-2 border border-gray-300 rounded-md"
                   onChange={handleChange}
@@ -163,9 +169,10 @@ const MakeVideoNft = ({  }: IMakeVideoNft) => {
                 >
                   Drop Reserve
                 </label>
-                <Field
-                  type="number"
+                <Input
+                  type="text"
                   name="dropReserve"
+                  //value={values.dropReserve}
                   placeholder="100"
                   className="block w-full mt-1 p-2 border border-gray-300 rounded-md"
                   onChange={handleChange}
@@ -180,9 +187,10 @@ const MakeVideoNft = ({  }: IMakeVideoNft) => {
                 >
                   Drop Price
                 </label>
-                <Field
-                  type="number"
+                <Input
+                  type="text"
                   name="dropPrice"
+                  //value={values.dropPrice}
                   placeholder="0.05"
                   className="block w-full mt-1 p-2 border border-gray-300 rounded-md"
                   onChange={handleChange}
@@ -198,8 +206,9 @@ const MakeVideoNft = ({  }: IMakeVideoNft) => {
                 >
                   Max Supply
                 </label>
-                <Field
-                  type="number"
+                <Input
+                  type="text"
+                  //value={values.maxSupply}
                   name="maxSupply"
                   placeholder="1000"
                   className="block w-full mt-1 p-2 border border-gray-300 rounded-md"
@@ -215,9 +224,10 @@ const MakeVideoNft = ({  }: IMakeVideoNft) => {
                 >
                   Royalties Fees
                 </label>
-                <Field
-                  type="number"
+                <Input
+                  type="text"
                   name="royaltiesFees"
+                  //value={values.maxSupply}
                   placeholder="5"
                   className="block w-full mt-1 p-2 border border-gray-300 rounded-md"
                   onChange={handleChange}
@@ -233,8 +243,7 @@ const MakeVideoNft = ({  }: IMakeVideoNft) => {
                 >
                   Description
                 </label>
-                <Field
-                  type="text"
+                <TextArea
                   name="description"
                   placeholder="I'm a software engineer"
                   className="block w-full mt-1 p-2 border border-gray-300 rounded-md"

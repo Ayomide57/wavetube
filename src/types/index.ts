@@ -105,6 +105,7 @@ export interface ICreateVideo {
     category: string;
     user: string | undefined;
     videoUUid: string;
+    duration: number | undefined;
 }
 
 

@@ -29,9 +29,9 @@ function VideoCard({ newList }: IVideoCard) {
           <CardHeader className="flex-row items-center">
             <div className="relative">
               <div className="relative">
-                <Link href={`/videoStream?videoId=${video[0].id}`}>
+                <Link href={`/videoStream?videoId=${video.id}`}>
                   <img
-                    src={video[1]}
+                    src={video.thumbnail_link}
                     alt="Notification"
                     width={500}
                     height={400}
@@ -39,13 +39,15 @@ function VideoCard({ newList }: IVideoCard) {
                   />
                 </Link>
                 <div className="absolute bottom-0 right-0 bg-black bg-opacity-20 text-white px-2 py-1 rounded">
-                  <Badge variant={"secondary"}>{video[0].duration}</Badge>
+                  <Badge variant={"secondary"}>{
+                    (`${video.duration / 60}`).substring(0, 4)
+                  }</Badge>
                 </div>
               </div>
               <div className="mt-4">
-                <Link href={`/videoStream?videoId=${video[0].id}`}>
+                <Link href={`/videoStream?videoId=${video.id}`}>
                   <CardTitle className=" text-white dark:text-customLightPurple-dark_text text-md font-semibold">
-                    {video[0].title}
+                    {video.title}
                   </CardTitle>
                 </Link>
               </div>
@@ -64,8 +66,10 @@ function VideoCard({ newList }: IVideoCard) {
           </CardContent>
           <CardFooter className="flex text-gray-100 dark:dark:text-gray-500">
             <CardDescription className="tx-sm text-gray-300 dark:dark:text-gray-500">
-              {`${video[0].title} views . `}{" "}
-              <Date dateString={video[0].created_at}></Date>
+              {`${video.title}`}
+              <br />
+              {`views ${video.views}`} <br />
+              <Date dateString={video.created_at}></Date>
             </CardDescription>
           </CardFooter>
         </Card>

@@ -14,30 +14,20 @@ import useSWR from "swr";
 
 export default function ProfileForm() {
   const [ipfsLink, updateLink] = useState<any>();
-    const [userInfo, setUserInfo] = useState<any>([]);
+  const [data, updateData] = useState<any>();
 
   const { address } = useAccount();
 
-  
-  // Form validation function
-  const validate = (values: { username: any }) => {
-    const errors: { username?: string } = {};
-    if (!values.username) {
-      errors.username = "Username Required";
-    }
-    return errors;
-  };
+  const handlegetUserInformation = useCallback(async () => {
+    const user = await waveTube.getUserInformation(address);
+    if (user && user[0]) updateData(user[0]);
+  }, [address]);
+
+  useEffect(() => {
+    handlegetUserInformation();
+  }, [data, handlegetUserInformation]);
 
 
-  const handleGetUserInformation = () => {
-    const user = waveTube.getUserInformation(address);
-    return user;
-  };
-
-  const { data, error, isLoading } = useSWR(handleGetUserInformation);
-
-  if (error) return <div>{error}</div>;
-  if (isLoading) return <div>loading...</div>;
-  if(data) return <UserInfo userInfo={data} />
-  return (<SettingForm ipfsLink={ipfsLink} updateLink={updateLink} />);
+  if (address && !data) return <SettingForm ipfsLink={ipfsLink} updateLink={updateLink} />;
+  return (<UserInfo userInfo={data}/>);
 }
