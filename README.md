@@ -20,9 +20,10 @@ WaveTube is the first decentralized streaming platform like YouTube. It leverage
 ## Built With
 
 - **Apillon**: For user authentication, File Storage, NFT .
+- **Crust Network**: used for file storage and and NFT creation.
 - **TypeScript** and **JavaScript**: For frontend development.
 
-For Contracts Visit: https://github.com/SuiTechStreams/SuiContarcts
+For Contracts Visit: https://github.com/Ayomide57/wavetube
 
 ## Impact and Future Vision:
 WaveTube aims to revolutionize the video streaming industry by empowering content creators with true ownership and control over their content. It fosters a decentralized ecosystem that is secure, transparent, and user-friendly, drawing in a vibrant community of users, creators, and developers. By continuously integrating innovative technologies and enhancing user experience, WaveTube strives to be at the forefront of the decentralized social media revolution on the Blockchain.
