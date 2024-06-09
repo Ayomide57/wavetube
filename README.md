@@ -1,6 +1,6 @@
 # WaveTube
 
-WaveTube is the first decentralized streaming platform like YouTube. It leverages polkadot and integration with Apillon, IPFS, transparent, and user-centric platform for content creators and consumers. WaveTube addresses critical issues of high fees, lack of content ownership, and stringent regulations found in traditional video streaming platforms by utilizing the decentralized nature of blockchain technology.
+WaveTube is the first decentralized streaming platform like YouTube. It leverages polkadot and integration with Apillon, IPFS, Crust Network, transparent, and user-centric platform for content creators and consumers. WaveTube addresses critical issues of high fees, lack of content ownership, and stringent regulations found in traditional video streaming platforms by utilizing the decentralized nature of blockchain technology.
 
 ## What's the Problem WaveTube Solves?
 1. **High Fees and Centralization:** Traditional video streaming platforms charge high fees (e.g., 40% for YouTube superchats) and maintain centralized control, impacting content ownership and revenue distribution.
